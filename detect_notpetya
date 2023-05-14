@@ -1,0 +1,13 @@
+rule NotPetya_Malware {
+    meta:
+        description = "YARA rule for NotPetya Malware"
+    strings:
+        $string1 = "6d 5a b6 00" // MZ header
+        $string2 = "5778787847000000" wide ascii
+        $string3 = "WMIADAP.EXE" wide ascii
+        $string4 = "M[E" wide ascii
+        $string5 = "7d 80 7e 00 00" // Start of NotPetya file marker
+        $string6 = "e0 00 00 00 18 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00" // NotPetya code marker
+    condition:
+        $string1 at 0 and ($string2 or $string3) and ($string4 or $string5) and $string6
+}
